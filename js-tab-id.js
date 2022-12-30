@@ -6,3 +6,15 @@ function uuidv4() {
 	var tabID = sessionStorage.tabID ? 
             sessionStorage.tabID : 
             sessionStorage.tabID = uuidv4();
+
+UPDATE:
+In some cases, you may have same sessionStorage in multiple tabs (e.g. when you duplicate tab). In that case, following code may help:
+
+var tabID = sessionStorage.tabID && 
+            sessionStorage.closedLastTab !== '2' ? 
+            sessionStorage.tabID : 
+            sessionStorage.tabID = Math.random();
+sessionStorage.closedLastTab = '2';
+$(window).on('unload beforeunload', function() {
+      sessionStorage.closedLastTab = '1';
+});
